@@ -1,3 +1,7 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://joshuacharrison.com/'
 locale = 'en-us'
-title = 'My New Hugo Project'
+title = 'Joshua Harrison'
+disableKinds = ['taxonomy', 'term']
+
+[params]
+  description = 'The professional resume website of Joshua Harrison.'

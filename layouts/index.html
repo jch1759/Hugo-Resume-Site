@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="{{ site.Language.Locale }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ site.Params.description }}">
+    <title>{{ site.Title }}</title>
+    {{ with resources.Get "css/main.css" | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+    {{ end }}
+  </head>
+  <body>
+    <main>
+      <header class="intro">
+        <p class="eyebrow">Professional resume</p>
+        <h1>Joshua Harrison</h1>
+        <p class="summary">
+          This Hugo site is online. Experience, projects, and contact details
+          are coming next.
+        </p>
+      </header>
+
+      <section aria-labelledby="next-heading">
+        <h2 id="next-heading">A solid first deploy</h2>
+        <p>
+          The production pipeline is working and the site is ready to become a
+          focused, fast home for my professional work.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; {{ now.Year }} Joshua Harrison</p>
+    </footer>
+  </body>
+</html>
