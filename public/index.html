@@ -1,13 +1,14 @@
 <!doctype html>
-<html lang="{{ site.Language.Locale }}">
+<html lang="en-us">
   <head>
+	<meta name="generator" content="Hugo 0.163.3"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ site.Params.description }}">
-    <title>{{ site.Title }}</title>
-    {{ with resources.Get "css/main.css" | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
-    {{ end }}
+    <meta name="description" content="Joshua Harrison is an NJIT Computer Science student with experience in IT support, campus leadership, and team operations.">
+    <title>Joshua Harrison</title>
+    
+      <link rel="stylesheet" href="/css/main.min.bbdc24973da291c415508340bff68817d7708606d120f0ed6738f67b3bae090a.css" integrity="sha256-u9wklz2ikcQVUINAv/aIF9dwhgbRIPDtZzj2ezuuCQo=">
+    
   </head>
   <body>
     <button
@@ -55,9 +56,9 @@
             </a>
           </address>
           <div class="profile-links" aria-label="Professional profiles">
-            {{ with site.Params.github }}
+            
               <a
-                href="{{ . }}"
+                href="https://github.com/jch1759"
                 target="_blank"
                 rel="me noopener noreferrer"
                 aria-label="GitHub"
@@ -65,9 +66,9 @@
               >
                 <img src="/img/social/github.png" alt="" width="160" height="160">
               </a>
-            {{ end }}
+            
             <a
-              href="{{ site.Params.linkedin }}"
+              href="https://www.linkedin.com/in/joshcharrison"
               target="_blank"
               rel="me noopener noreferrer"
               aria-label="LinkedIn"
@@ -253,7 +254,7 @@
     </main>
 
     <footer>
-      <p>&copy; {{ now.Year }} Joshua Harrison</p>
+      <p>&copy; 2026 Joshua Harrison</p>
     </footer>
 
     <script>

@@ -4,4 +4,6 @@ title = 'Joshua Harrison'
 disableKinds = ['taxonomy', 'term']
 
 [params]
-  description = 'The professional resume website of Joshua Harrison.'
+  description = 'Joshua Harrison is an NJIT Computer Science student with experience in IT support, campus leadership, and team operations.'
+  linkedin = 'https://www.linkedin.com/in/joshcharrison'
+  github = 'https://github.com/jch1759'
