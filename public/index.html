@@ -7,7 +7,7 @@
     <meta name="description" content="Joshua Harrison is an NJIT Computer Science student with experience in IT support, campus leadership, and team operations.">
     <title>Joshua Harrison</title>
     
-      <link rel="stylesheet" href="/css/main.min.bbdc24973da291c415508340bff68817d7708606d120f0ed6738f67b3bae090a.css" integrity="sha256-u9wklz2ikcQVUINAv/aIF9dwhgbRIPDtZzj2ezuuCQo=">
+      <link rel="stylesheet" href="/css/main.min.5f95003f70f38d48e22931051c7f50671c7fcd5ee7bb0c71ea564e100c50b3b5.css" integrity="sha256-X5UAP3DzjUjiKTEFHH9QZxx/zV7nuwxx6lZOEAxQs7U=">
     
   </head>
   <body>
@@ -250,6 +250,43 @@
             </a>
           </li>
         </ul>
+        <form
+          class="contact-form"
+          id="contact-form"
+          action="https://formspree.io/f/xnjkqyyv"
+          method="post"
+        >
+          <input
+            type="text"
+            name="_gotcha"
+            class="form-honeypot"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+          >
+          <input type="hidden" name="_subject" value="New resume website message">
+
+          <div class="form-row">
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" autocomplete="name" required>
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" autocomplete="email" required>
+            </label>
+          </div>
+
+          <label>
+            <span>Message</span>
+            <textarea name="message" rows="6" required></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button type="submit">Send message</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
       </section>
     </main>
 
@@ -283,6 +320,44 @@
         if (event.key === "Escape" && document.body.classList.contains("menu-open")) {
           setMenu(false);
           menuToggle.focus();
+        }
+      });
+
+      const contactForm = document.querySelector("#contact-form");
+      const formStatus = document.querySelector("#form-status");
+      const submitButton = contactForm.querySelector('button[type="submit"]');
+
+      contactForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+        formStatus.textContent = "";
+        formStatus.dataset.state = "";
+
+        try {
+          const response = await fetch(contactForm.action, {
+            method: "POST",
+            body: new FormData(contactForm),
+            headers: {
+              Accept: "application/json"
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error("Form submission failed");
+          }
+
+          contactForm.reset();
+          formStatus.textContent = "Message sent successfully.";
+          formStatus.dataset.state = "success";
+        } catch (error) {
+          formStatus.textContent =
+            "Message could not be sent. Please try again or email me directly.";
+          formStatus.dataset.state = "error";
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = "Send message";
         }
       });
     </script>

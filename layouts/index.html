@@ -236,19 +236,43 @@
 
       <section id="contact-me" aria-labelledby="contact-me-heading">
         <h2 id="contact-me-heading">Contact Me</h2>
-        <p class="contact-intro">
-          I am based in Newark, New Jersey, and welcome opportunities to
-          connect.
-        </p>
-        <ul class="contact-list">
-          <li><a href="mailto:joshuaharrisonpro@gmail.com">joshuaharrisonpro@gmail.com</a></li>
-          <li><a href="tel:+19088874052">908-887-4052</a></li>
-          <li>
-            <a href="https://www.linkedin.com/in/joshcharrison" rel="me">
-              LinkedIn
-            </a>
-          </li>
-        </ul>
+        <form
+          class="contact-form"
+          id="contact-form"
+          action="https://formspree.io/f/xnjkqyyv"
+          method="post"
+        >
+          <input
+            type="text"
+            name="_gotcha"
+            class="form-honeypot"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+          >
+          <input type="hidden" name="_subject" value="New resume website message">
+
+          <div class="form-row">
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" autocomplete="name" required>
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" autocomplete="email" required>
+            </label>
+          </div>
+
+          <label>
+            <span>Message</span>
+            <textarea name="message" rows="6" required></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button type="submit">Send message</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
       </section>
     </main>
 
@@ -282,6 +306,44 @@
         if (event.key === "Escape" && document.body.classList.contains("menu-open")) {
           setMenu(false);
           menuToggle.focus();
+        }
+      });
+
+      const contactForm = document.querySelector("#contact-form");
+      const formStatus = document.querySelector("#form-status");
+      const submitButton = contactForm.querySelector('button[type="submit"]');
+
+      contactForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+        formStatus.textContent = "";
+        formStatus.dataset.state = "";
+
+        try {
+          const response = await fetch(contactForm.action, {
+            method: "POST",
+            body: new FormData(contactForm),
+            headers: {
+              Accept: "application/json"
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error("Form submission failed");
+          }
+
+          contactForm.reset();
+          formStatus.textContent = "Message sent successfully.";
+          formStatus.dataset.state = "success";
+        } catch (error) {
+          formStatus.textContent =
+            "Message could not be sent. Please try again or email me directly.";
+          formStatus.dataset.state = "error";
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = "Send message";
         }
       });
     </script>
