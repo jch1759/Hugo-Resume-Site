@@ -1,0 +1,12 @@
+joshuacharrison.com, www.joshuacharrison.com {
+	handle /api/contact {
+		reverse_proxy 127.0.0.1:3000
+	}
+
+	handle /health {
+		reverse_proxy 127.0.0.1:3000
+	}
+
+	root * /usr/share/caddy
+	file_server
+}

@@ -1,0 +1,22 @@
+[Unit]
+Description=Resume site contact form API
+After=network.target postfix.service
+Wants=postfix.service
+
+[Service]
+Type=simple
+User=josh
+Group=josh
+WorkingDirectory=/home/josh/resume-site
+EnvironmentFile=/etc/resume-contact-api.env
+ExecStart=/usr/bin/node contact-api/server.js
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=/home/josh/resume-site
+
+[Install]
+WantedBy=multi-user.target
