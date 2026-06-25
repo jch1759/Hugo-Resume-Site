@@ -1,0 +1,1058 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resume Website Build Process</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #222222;
+        --muted: #646464;
+        --paper: #ffffff;
+        --soft: #f7f3f0;
+        --line: #ddd5ce;
+        --red: #c1121f;
+        --red-dark: #780000;
+        --green: #236b3b;
+        --gold: #b07524;
+        --max: 1080px;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: var(--ink);
+        background: var(--paper);
+        font-synthesis: none;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          linear-gradient(90deg, var(--red) 0 10px, transparent 10px),
+          var(--paper);
+      }
+
+      a {
+        color: var(--red-dark);
+        text-underline-offset: 3px;
+      }
+
+      .page-shell {
+        width: min(100% - 48px, var(--max));
+        margin: 0 auto;
+        padding: 44px 0 56px;
+      }
+
+      .hero {
+        min-height: 58vh;
+        display: grid;
+        align-content: center;
+        gap: 28px;
+        padding: 48px 0 40px;
+        border-bottom: 1px solid var(--red);
+      }
+
+      .eyebrow,
+      .section-kicker,
+      .label {
+        margin: 0;
+        color: var(--red-dark);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 900px;
+        margin-bottom: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(3.4rem, 8vw, 7rem);
+        font-weight: 500;
+        line-height: 0.92;
+        letter-spacing: 0;
+        color: var(--red-dark);
+      }
+
+      .hero-summary {
+        max-width: 760px;
+        margin: 0;
+        color: #3f3f3f;
+        font-size: clamp(1.16rem, 2vw, 1.45rem);
+        line-height: 1.65;
+      }
+
+      .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .hero-meta li {
+        border: 1px solid rgb(193 18 31 / 32%);
+        border-radius: 999px;
+        padding: 7px 12px;
+        color: var(--red-dark);
+        background: rgb(193 18 31 / 5%);
+        font-size: 0.94rem;
+        font-weight: 700;
+      }
+
+      .quick-nav {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        margin-inline: -24px;
+        padding: 12px 24px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        background: rgb(255 255 255 / 92%);
+        backdrop-filter: blur(14px);
+      }
+
+      .quick-nav a {
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 7px 11px;
+        color: var(--ink);
+        font-size: 0.92rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .quick-nav a:hover,
+      .quick-nav a:focus-visible {
+        border-color: rgb(193 18 31 / 34%);
+        color: var(--red-dark);
+        outline: 0;
+      }
+
+      section {
+        padding: 56px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      section:last-of-type {
+        border-bottom: 0;
+      }
+
+      .section-header {
+        display: grid;
+        grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+        gap: 36px;
+        align-items: start;
+        margin-bottom: 28px;
+      }
+
+      h2 {
+        margin-bottom: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2.15rem, 4.5vw, 3.6rem);
+        font-weight: 500;
+        line-height: 1;
+        color: var(--red-dark);
+      }
+
+      .section-intro {
+        margin: 0;
+        color: #444444;
+        font-size: 1.08rem;
+        line-height: 1.65;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .summary-item,
+      .phase,
+      .talk-track,
+      .check-item,
+      .tech-item {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+      }
+
+      .summary-item {
+        padding: 20px;
+      }
+
+      .summary-item h3,
+      .phase h3,
+      .tech-item h3,
+      .talk-track h3 {
+        margin-bottom: 8px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.32rem;
+        font-weight: 600;
+        line-height: 1.2;
+        color: var(--red-dark);
+      }
+
+      .summary-item p,
+      .phase p,
+      .tech-item p,
+      .talk-track p,
+      .check-item p {
+        margin-bottom: 0;
+        color: #444444;
+        line-height: 1.6;
+      }
+
+      .timeline {
+        position: relative;
+        display: grid;
+        gap: 18px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        top: 8px;
+        bottom: 8px;
+        left: 112px;
+        width: 2px;
+        background: var(--line);
+      }
+
+      .phase {
+        position: relative;
+        display: grid;
+        grid-template-columns: 94px minmax(0, 1fr);
+        gap: 36px;
+        padding: 20px;
+      }
+
+      .phase::before {
+        content: "";
+        position: absolute;
+        top: 28px;
+        left: 106px;
+        width: 14px;
+        height: 14px;
+        border: 3px solid var(--paper);
+        border-radius: 50%;
+        background: var(--red);
+        box-shadow: 0 0 0 1px rgb(193 18 31 / 36%);
+      }
+
+      .phase-date {
+        color: var(--red-dark);
+        font-weight: 800;
+        line-height: 1.35;
+      }
+
+      .phase-date span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .phase ul,
+      .workflow-list,
+      .artifact-list {
+        margin: 12px 0 0;
+        padding-left: 1.2rem;
+        color: #444444;
+        line-height: 1.65;
+      }
+
+      .phase li + li,
+      .workflow-list li + li,
+      .artifact-list li + li {
+        margin-top: 6px;
+      }
+
+      .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .tech-item {
+        padding: 20px;
+      }
+
+      .code-list {
+        margin: 14px 0 0;
+        padding: 0;
+        display: grid;
+        gap: 8px;
+        list-style: none;
+      }
+
+      code {
+        border: 1px solid rgb(35 35 35 / 12%);
+        border-radius: 5px;
+        padding: 2px 5px;
+        color: var(--red-dark);
+        background: var(--soft);
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 0.92em;
+      }
+
+      .workflow {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+      }
+
+      .workflow-panel {
+        border-left: 4px solid var(--red);
+        padding-left: 18px;
+      }
+
+      .workflow-panel h3 {
+        margin-bottom: 10px;
+        font-size: 1.12rem;
+      }
+
+      .checklist {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .check-item {
+        padding: 18px;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 12px;
+        color: var(--green);
+        font-size: 0.86rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .status::before {
+        content: "";
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: currentcolor;
+      }
+
+      .talk-track {
+        padding: 24px;
+        background:
+          linear-gradient(90deg, rgb(193 18 31 / 7%), transparent 55%),
+          var(--paper);
+      }
+
+      .talk-track ol {
+        margin: 14px 0 0;
+        padding-left: 1.35rem;
+        color: #3f3f3f;
+        line-height: 1.7;
+      }
+
+      .talk-track li + li {
+        margin-top: 8px;
+      }
+
+      .artifact-list strong {
+        color: var(--red-dark);
+      }
+
+      .footer-note {
+        margin: 32px 0 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.55;
+      }
+
+      @media (max-width: 780px) {
+        body {
+          background:
+            linear-gradient(90deg, var(--red) 0 6px, transparent 6px),
+            var(--paper);
+        }
+
+        .page-shell {
+          width: min(100% - 36px, var(--max));
+          padding-top: 28px;
+        }
+
+        .hero {
+          min-height: auto;
+          padding-top: 36px;
+        }
+
+        .section-header,
+        .summary-grid,
+        .tech-grid,
+        .workflow,
+        .checklist {
+          grid-template-columns: 1fr;
+        }
+
+        .quick-nav {
+          position: static;
+          margin-inline: 0;
+          padding-inline: 0;
+        }
+
+        .timeline::before,
+        .phase::before {
+          display: none;
+        }
+
+        .phase {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+      }
+
+      @media print {
+        body {
+          background: var(--paper);
+        }
+
+        .page-shell {
+          width: auto;
+          padding: 0;
+        }
+
+        .hero {
+          min-height: auto;
+          padding-top: 0;
+        }
+
+        .quick-nav {
+          display: none;
+        }
+
+        section {
+          break-inside: avoid;
+          padding: 24px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <p class="eyebrow">Build process handoff</p>
+        <h1>Joshua Harrison Resume Website</h1>
+        <p class="hero-summary">
+          A standalone explanation of how the resume website was planned,
+          built, refined, and prepared for publication. It combines the Git
+          history with the Codex build-session context so the order of
+          operations reflects the real workflow, not only the final commits.
+          This file is for presentation and documentation only; it is not part
+          of the live Hugo website.
+        </p>
+        <ul class="hero-meta" aria-label="Project metadata">
+          <li>Repository: resume-site</li>
+          <li>Framework: Hugo</li>
+          <li>Build window: June 17-23, 2026</li>
+          <li>Final site: joshuacharrison.com</li>
+        </ul>
+      </header>
+
+      <nav class="quick-nav" aria-label="Build process sections">
+        <a href="#summary">Summary</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#operations">Operations</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#quality">Quality Checks</a>
+        <a href="#talk-track">Talk Track</a>
+      </nav>
+
+      <main>
+        <section id="summary">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Executive summary</p>
+              <h2>What was built</h2>
+            </div>
+            <p class="section-intro">
+              The project is a personal resume website that turns a traditional
+              resume into a focused, mobile-friendly web presence. It highlights
+              education, work experience, leadership, skills, contact details,
+              professional profiles, and a working contact form, while also
+              documenting the hosting and deployment work behind the finished
+              page.
+            </p>
+          </div>
+
+          <div class="summary-grid">
+            <article class="summary-item">
+              <h3>Professional first impression</h3>
+              <p>
+                The homepage presents a strong identity section with name,
+                portrait, concise summary, contact card, and links to GitHub
+                and LinkedIn.
+              </p>
+            </article>
+            <article class="summary-item">
+              <h3>Resume content online</h3>
+              <p>
+                Core resume sections were structured as scannable website
+                sections: About Me, Education, Work Experience, Leadership,
+                Skills, and Contact Me.
+              </p>
+            </article>
+            <article class="summary-item">
+              <h3>Deployment-ready foundation</h3>
+              <p>
+                Hugo, Caddy, and the Linode workflow produce optimized static
+                output, stage it safely, and publish it only after the build is
+                verified.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="timeline">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Progression</p>
+              <h2>Build timeline</h2>
+            </div>
+            <p class="section-intro">
+              The Codex sessions show a more complete order of operations:
+              server setup, first deploy, preview workflow, theme exploration,
+              resume-content conversion, portrait/social-link iteration, contact
+              form integration, and final migration back to the local repository.
+            </p>
+          </div>
+
+          <div class="timeline">
+            <article class="phase">
+              <p class="phase-date"><span>Phase 1</span>June 17, 2026</p>
+              <div>
+                <h3>Linode, Ubuntu, Hugo, and Caddy plan</h3>
+                <p>
+                  The project started with the hosting architecture rather than
+                  the page design. The chosen stack was a small Linode running
+                  Ubuntu, Hugo for static-site generation, and Caddy for serving
+                  the site with automatic HTTPS.
+                </p>
+                <ul>
+                  <li>Selected a low-cost Linode Nanode-style hosting path.</li>
+                  <li>Used Ubuntu as the server operating system.</li>
+                  <li>Planned Caddy as the web server because it handles HTTPS cleanly.</li>
+                  <li>Outlined SSH key, firewall, DNS, and non-root user setup.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="phase">
+              <p class="phase-date"><span>Phase 2</span>June 17, 2026</p>
+              <div>
+                <h3>First Hugo scaffold and safe staging workflow</h3>
+                <p>
+                  Once the Linode was reachable, the Hugo source was located at
+                  <code>/home/josh/resume-site</code> and the Caddy web root was
+                  identified as <code>/usr/share/caddy</code>. The initial Hugo
+                  scaffold was not ready to publish, so a minimal first resume
+                  shell was created before touching the live site.
+                </p>
+                <ul>
+                  <li>Configured the real production URL in <code>hugo.toml</code>.</li>
+                  <li>Added the first hand-built homepage and custom stylesheet.</li>
+                  <li>Built to <code>/home/josh/resume-deploy</code> as a staging directory.</li>
+                  <li>Kept the live Caddy directory untouched until validation passed.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="phase">
+              <p class="phase-date"><span>Phase 3</span>June 17-18, 2026</p>
+              <div>
+                <h3>First deploy and live verification</h3>
+                <p>
+                  The first version was deployed by copying the staged Hugo
+                  output into Caddy's protected web root with a sudo command
+                  entered by the site owner.
+                </p>
+                <ul>
+                  <li>Backed up the existing Caddy site before replacing files.</li>
+                  <li>Published staged output from <code>/home/josh/resume-deploy</code>.</li>
+                  <li>Verified apex and <code>www</code> hostnames over HTTPS.</li>
+                  <li>Confirmed fingerprinted CSS and Caddy responses loaded correctly.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="phase">
+              <p class="phase-date"><span>Phase 4</span>June 18-19, 2026</p>
+              <div>
+                <h3>Preview workflow and theme exploration</h3>
+                <p>
+                  A safe edit-preview-publish loop was established before design
+                  experimentation continued. A Hugo resume theme was explored,
+                  then preserved on a branch and removed from <code>main</code>
+                  after deciding the hand-built homepage was a better fit.
+                </p>
+                <ul>
+                  <li>Ran <code>hugo server --bind 127.0.0.1</code> on the Linode.</li>
+                  <li>Used an SSH tunnel to preview the remote server at local port <code>1313</code>.</li>
+                  <li>Saved the first deployed site before installing the theme.</li>
+                  <li>Created a <code>resume-theme</code> branch and restored the custom HTML version.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="phase">
+              <p class="phase-date"><span>Phase 5</span>June 19-20, 2026</p>
+              <div>
+                <h3>Resume content converted into web sections</h3>
+                <p>
+                  The resume PDF was used as the source of truth for the site
+                  content. The information was reorganized into readable web
+                  sections rather than copied as a flat document.
+                </p>
+                <ul>
+                  <li>Extracted the resume content and mapped it into the homepage.</li>
+                  <li>Preserved the existing red visual system and navigation menu.</li>
+                  <li>Added education, IT experience, leadership, skills, coursework, and contact details.</li>
+                  <li>Verified desktop and mobile readability through the preview server.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="phase">
+              <p class="phase-date"><span>Phase 6</span>June 20-22, 2026</p>
+              <div>
+                <h3>Hero, portrait, social links, and contact card</h3>
+                <p>
+                  The top of the page was iteratively refined from a text-only
+                  resume header into a personal hero with a portrait, profile
+                  links, location, phone, and email.
+                </p>
+                <ul>
+                  <li>Added a circular portrait to the right of the name.</li>
+                  <li>Added LinkedIn first, then verified and added the GitHub profile.</li>
+                  <li>Replaced text buttons with clickable PNG social logos.</li>
+                  <li>Moved phone, email, location, and social icons into a shared contact card.</li>
+                  <li>Checked mobile centering, no-overflow behavior, and icon alignment.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="phase">
+              <p class="phase-date"><span>Phase 7</span>June 22, 2026</p>
+              <div>
+                <h3>Contact form research and Formspree integration</h3>
+                <p>
+                  Because Hugo is static, the form needed a hosted endpoint or
+                  a custom backend. A self-hosted backend was considered, but
+                  Formspree was selected as the practical fit for this resume
+                  site.
+                </p>
+                <ul>
+                  <li>Discussed JavaScript form submission without page reload.</li>
+                  <li>Compared third-party form services with a self-hosted Linode endpoint.</li>
+                  <li>Connected the form to <code>https://formspree.io/f/xnjkqyyv</code>.</li>
+                  <li>Added required name, email, and message fields.</li>
+                  <li>Added async <code>fetch()</code> submission, loading state, success/error messages, validation, and a honeypot.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="phase">
+              <p class="phase-date"><span>Phase 8</span>June 22-23, 2026</p>
+              <div>
+                <h3>Final layout and content cleanup</h3>
+                <p>
+                  The final pass focused on making the page easier to scan and
+                  removing duplicated contact information.
+                </p>
+                <ul>
+                  <li>Enlarged section text and widened resume content areas.</li>
+                  <li>Tuned divider widths, contact-card padding, and social-icon spacing.</li>
+                  <li>Removed extra text from the Contact Me section so it contains only the heading and form.</li>
+                  <li>Moved the contact card below the summary and increased its text size.</li>
+                  <li>Renamed the sidebar label from "Explore" to "Navigate".</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="phase">
+              <p class="phase-date"><span>Phase 9</span>June 23, 2026</p>
+              <div>
+                <h3>Source copied back to the MacBook</h3>
+                <p>
+                  After the remote Linode build work, the source repository was
+                  copied back into the local workspace so it could be maintained
+                  from the MacBook.
+                </p>
+                <ul>
+                  <li>Copied <code>/home/josh/resume-site/</code> from the Linode into <code>~/Documents/resume-site/</code>.</li>
+                  <li>Kept source files separate from generated live output.</li>
+                  <li>Clarified that <code>public/</code> is generated Hugo output and should not be edited directly.</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="operations">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Session context</p>
+              <h2>Operational details from Codex</h2>
+            </div>
+            <p class="section-intro">
+              These details came from the actual build conversations and help
+              explain how the site moved from idea to running production site.
+            </p>
+          </div>
+
+          <div class="workflow">
+            <div class="workflow-panel">
+              <h3>Remote development loop</h3>
+              <ol class="workflow-list">
+                <li>SSH into <code>josh@joshuacharrison.com</code>.</li>
+                <li>Edit the Hugo source in <code>/home/josh/resume-site</code>.</li>
+                <li>Run <code>hugo server --bind 127.0.0.1</code> on the Linode.</li>
+                <li>Open an SSH tunnel from the MacBook to preview port <code>1313</code>.</li>
+                <li>Use the browser preview to check layout before publishing.</li>
+              </ol>
+            </div>
+
+            <div class="workflow-panel">
+              <h3>Production deployment loop</h3>
+              <ol class="workflow-list">
+                <li>Build production output with Hugo into <code>/home/josh/resume-deploy</code>.</li>
+                <li>Keep generated files out of the source-editing path.</li>
+                <li>Back up the current Caddy web root before major deploys.</li>
+                <li>Use <code>sudo rsync -a --delete</code> to publish staged files into <code>/usr/share/caddy</code>.</li>
+                <li>Verify HTTPS, Caddy, hostnames, CSS, and page layout after publishing.</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <section id="architecture">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Technical structure</p>
+              <h2>How the site is organized</h2>
+            </div>
+            <p class="section-intro">
+              The project uses Hugo as a static-site generator. The source files
+              define the site content, styling, and assets, while the generated
+              output is staged separately before being copied into Caddy's live
+              web root.
+            </p>
+          </div>
+
+          <div class="tech-grid">
+            <article class="tech-item">
+              <h3>Configuration</h3>
+              <p>
+                <code>hugo.toml</code> defines the site URL, title, locale,
+                description, and profile links.
+              </p>
+              <ul class="code-list">
+                <li><code>baseURL = 'https://joshuacharrison.com/'</code></li>
+                <li><code>title = 'Joshua Harrison'</code></li>
+                <li><code>disableKinds = ['taxonomy', 'term']</code></li>
+              </ul>
+            </article>
+
+            <article class="tech-item">
+              <h3>Layout</h3>
+              <p>
+                <code>layouts/index.html</code> contains the one-page resume,
+                navigation menu, contact form, footer, and small JavaScript
+                behaviors.
+              </p>
+            </article>
+
+            <article class="tech-item">
+              <h3>Styling</h3>
+              <p>
+                <code>assets/css/main.css</code> defines the custom red and
+                white visual identity, responsive layout, menu behavior, resume
+                section spacing, and form states.
+              </p>
+            </article>
+
+            <article class="tech-item">
+              <h3>Static assets</h3>
+              <p>
+                <code>static/img/</code> stores the profile image and social
+                icons. Hugo copies these into the generated site output during
+                the build.
+              </p>
+            </article>
+
+            <article class="tech-item">
+              <h3>Hosting</h3>
+              <p>
+                The production site runs on a Linode under
+                <code>joshuacharrison.com</code>, with Caddy serving the static
+                files and handling HTTPS.
+              </p>
+            </article>
+
+            <article class="tech-item">
+              <h3>Deployment path</h3>
+              <p>
+                Source edits happen in <code>/home/josh/resume-site</code>,
+                production builds are staged in
+                <code>/home/josh/resume-deploy</code>, and live files are copied
+                into <code>/usr/share/caddy</code>.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="workflow">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Implementation workflow</p>
+              <h2>Steps I took</h2>
+            </div>
+            <p class="section-intro">
+              The work followed a practical progression: establish hosting,
+              prove the deployment path, choose the right design approach, turn
+              the resume into web content, add interactivity, and bring the
+              finished source back into the local repository.
+            </p>
+          </div>
+
+          <div class="workflow">
+            <div class="workflow-panel">
+              <h3>Build steps</h3>
+              <ol class="workflow-list">
+                <li>Created and secured the Linode hosting environment.</li>
+                <li>Configured Hugo, Caddy, DNS, and the production base URL.</li>
+                <li>Built a minimal first homepage and staged it before deployment.</li>
+                <li>Established the preview loop with Hugo server and SSH tunneling.</li>
+                <li>Explored a resume theme, backed it up, then returned to the custom homepage.</li>
+                <li>Converted the resume PDF into web-native sections.</li>
+                <li>Added the portrait, profile links, contact card, and responsive refinements.</li>
+                <li>Integrated Formspree with no-reload JavaScript submission and spam protection.</li>
+                <li>Copied the final source from the Linode back to the local MacBook repository.</li>
+              </ol>
+            </div>
+
+            <div class="workflow-panel">
+              <h3>Key decisions</h3>
+              <ul class="workflow-list">
+                <li>
+                  Used Hugo because a static resume site is fast, reliable, and
+                  easy to host.
+                </li>
+                <li>
+                  Used Caddy because it made static hosting and HTTPS simpler
+                  on the Linode.
+                </li>
+                <li>
+                  Reverted the resume theme because a custom layout better
+                  matched the intended personal brand.
+                </li>
+                <li>
+                  Kept the site one page so recruiters and reviewers can scan
+                  the whole profile quickly.
+                </li>
+                <li>
+                  Placed contact details near the top so the call to connect is
+                  visible immediately.
+                </li>
+                <li>
+                  Chose Formspree over a custom backend because the site only
+                  needed a lightweight contact workflow.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="quality">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Quality checks</p>
+              <h2>How the build was validated</h2>
+            </div>
+            <p class="section-intro">
+              Validation happened at several points: before first deploy, after
+              theme rollback, during desktop/mobile preview checks, after form
+              integration, and after live publication.
+            </p>
+          </div>
+
+          <div class="checklist">
+            <article class="check-item">
+              <p class="status">Confirmed</p>
+              <h3>Generated output</h3>
+              <p>
+                Hugo generated deployable files, including the homepage, sitemap,
+                image assets, and minified fingerprinted CSS, before live files
+                were replaced.
+              </p>
+            </article>
+
+            <article class="check-item">
+              <p class="status">Confirmed</p>
+              <h3>Responsive layout</h3>
+              <p>
+                Desktop and mobile previews checked hero alignment, menu
+                behavior, contact-card spacing, form layout, and horizontal
+                overflow.
+              </p>
+            </article>
+
+            <article class="check-item">
+              <p class="status">Confirmed</p>
+              <h3>Accessibility basics</h3>
+              <p>
+                The navigation uses ARIA labels and expanded states, the menu
+                closes with Escape, and the form status uses live-region text.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="talk-track">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Manager explanation</p>
+              <h2>Concise talk track</h2>
+            </div>
+            <p class="section-intro">
+              This is a short way to explain the project in a meeting without
+              getting buried in implementation details.
+            </p>
+          </div>
+
+          <article class="talk-track">
+            <h3>Suggested walkthrough</h3>
+            <ol>
+              <li>
+                I started by setting up a Linode-hosted static-site stack:
+                Ubuntu, Hugo, Caddy, DNS, and HTTPS for the custom domain.
+              </li>
+              <li>
+                I created a first Hugo homepage, staged the generated output,
+                backed up the existing web root, and published only after the
+                build and HTTPS checks passed.
+              </li>
+              <li>
+                I built a preview workflow with Hugo server plus an SSH tunnel,
+                then used it to safely test changes before deployment.
+              </li>
+              <li>
+                I explored a prebuilt resume theme, preserved it on a branch,
+                and reverted to a custom one-page design because it gave me more
+                control over the presentation.
+              </li>
+              <li>
+                I converted my resume PDF into web sections, then added custom
+                CSS, a profile image, social logos, contact details, and
+                accessible navigation.
+              </li>
+              <li>
+                I researched contact-form options, chose Formspree, added
+                no-reload JavaScript submission, success/error states, and a
+                honeypot, then refined the final layout.
+              </li>
+              <li>
+                I copied the completed source from the Linode back to my MacBook
+                repository so the project can now be maintained locally.
+              </li>
+            </ol>
+          </article>
+
+          <p class="footer-note">
+            Documentation file location:
+            <code>docs/build-process.html</code>. This artifact is separate
+            from the live website source and can be opened directly in a browser
+            or printed for discussion.
+          </p>
+        </section>
+
+        <section id="artifacts">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Repository map</p>
+              <h2>Files to reference</h2>
+            </div>
+            <p class="section-intro">
+              These are the primary files and directories that explain the
+              project structure.
+            </p>
+          </div>
+
+          <ul class="artifact-list">
+            <li>
+              <strong><code>hugo.toml</code></strong>: site configuration,
+              metadata, and profile links.
+            </li>
+            <li>
+              <strong><code>layouts/index.html</code></strong>: homepage
+              content, resume sections, menu markup, contact form, and
+              JavaScript.
+            </li>
+            <li>
+              <strong><code>assets/css/main.css</code></strong>: custom styling,
+              responsive rules, and form/menu states.
+            </li>
+            <li>
+              <strong><code>static/img/</code></strong>: source image assets
+              used by the site.
+            </li>
+            <li>
+              <strong><code>public/</code></strong>: generated static output
+              produced by Hugo locally. It should be regenerated, not edited by
+              hand.
+            </li>
+            <li>
+              <strong><code>/home/josh/resume-site</code></strong>: original
+              Linode source path used during the remote build.
+            </li>
+            <li>
+              <strong><code>/home/josh/resume-deploy</code></strong>: staging
+              directory used for production Hugo builds on the Linode.
+            </li>
+            <li>
+              <strong><code>/usr/share/caddy</code></strong>: live Caddy web
+              root that serves the deployed site.
+            </li>
+            <li>
+              <strong><code>docs/build-process.html</code></strong>: this
+              standalone manager-facing build-process document.
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
