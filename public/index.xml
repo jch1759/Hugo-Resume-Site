@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-	<channel>
-		<title>Joshua Harrison</title>
-		<link>http://127.0.0.1:1313/</link>
-		<description>Recent content on Joshua Harrison</description>
-		<generator>Hugo</generator>
-		<language>en-us</language>
-		
-		
-		
-		
-			<atom:link href="http://127.0.0.1:1313/index.xml" rel="self" type="application/rss+xml" />
-	</channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Joshua Harrison</title><link>https://joshuacharrison.com/</link><description>Recent content on Joshua Harrison</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://joshuacharrison.com/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
