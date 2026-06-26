@@ -1,7 +1,7 @@
 [Unit]
 Description=Resume site contact form API
-After=network.target postfix.service
-Wants=postfix.service
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=simple

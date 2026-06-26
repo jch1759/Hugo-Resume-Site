@@ -5,7 +5,7 @@ import { createApp } from "../contact-api/app.js";
 
 const config = {
   allowedOrigin: "https://joshuacharrison.com",
-  mailFrom: "contact@joshuacharrison.com",
+  mailFrom: "joshuaharrisonpro@gmail.com",
   mailTo: "joshuaharrisonpro@gmail.com",
   smtpHost: "localhost",
   smtpPort: 25,

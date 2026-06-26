@@ -17,23 +17,34 @@ function buildMessageText({ name, email, message }) {
 }
 
 export function createMailer(config, transport = null) {
+  const auth =
+    config.smtpUser && config.smtpPass
+      ? {
+          user: config.smtpUser,
+          pass: config.smtpPass
+        }
+      : undefined;
+
   const mailTransport =
     transport ||
     nodemailer.createTransport({
       host: config.smtpHost,
       port: config.smtpPort,
-      secure: config.smtpSecure
+      secure: config.smtpSecure,
+      requireTLS: config.smtpRequireTls,
+      auth
     });
 
   return {
     async sendContactMessage(payload) {
       const safeName = escapeHeaderValue(payload.name);
       const safeEmail = escapeHeaderValue(payload.email);
+      const archiveAddress = config.mailFrom !== config.mailTo ? config.mailFrom : undefined;
 
       return mailTransport.sendMail({
         from: config.mailFrom,
         to: config.mailTo,
-        bcc: config.mailFrom,
+        bcc: archiveAddress,
         replyTo: {
           name: safeName,
           address: safeEmail

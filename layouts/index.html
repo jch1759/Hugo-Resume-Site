@@ -310,6 +310,11 @@
       const contactForm = document.querySelector("#contact-form");
       const formStatus = document.querySelector("#form-status");
       const submitButton = contactForm.querySelector('button[type="submit"]');
+      const localHosts = new Set(["localhost", "127.0.0.1", "::1"]);
+
+      if (localHosts.has(window.location.hostname)) {
+        contactForm.action = "http://127.0.0.1:3000/api/contact";
+      }
 
       contactForm.addEventListener("submit", async (event) => {
         event.preventDefault();
